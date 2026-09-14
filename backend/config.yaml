@@ -1,0 +1,85 @@
+# Sirius non-secret settings. Secrets live in .env (see .env.example).
+# This file is safe to commit.
+
+llm:
+  backend: vertex                    # currently only "vertex" (Claude on Vertex AI)
+  model: claude-sonnet-5             # default/general agent (General, Cortex, Terraform, Attacker)
+  scenario_model: claude-sonnet-5    # Prisma AIRS scenario agents (bank/telco/healthcare) — sonnet leaks the attack reliably with AIRS off; haiku over-refuses PII/medical exfiltration and breaks the demo
+  vertex_project: your-gcp-project        # active Vertex project (rotates ~every 5 weeks).
+                                     # To rotate without editing this committed file,
+                                     # set SIRIUS_VERTEX_PROJECT in .env — it overrides
+                                     # this value. Then restart the backend.
+  vertex_region: global              # active Vertex region (global endpoint).
+                                     # Override via SIRIUS_VERTEX_REGION in .env.
+  max_tokens: 16384                  # per-response output ceiling; needs headroom for
+                                     # large tool calls (e.g. generate_report bodies) —
+                                     # too low truncates the tool call to "(no response)"
+
+airs:
+  enabled: true                      # master default; the UI toggle overrides per-request
+  profile_name: your-airs-profile  # reuse Alfred's existing AIRS profile (same tenant)
+  app_name: sirius
+  api_endpoint: https://service-sg.api.aisecurity.paloaltonetworks.com  # SG-region token
+  fail_open: true                    # scan errors allow traffic through (demo-friendly)
+
+cortex:
+  fqdn: ""                           # e.g. https://api-yourtenant.xdr.us.paloaltonetworks.com
+  advanced_auth: true                # Advanced (nonce+timestamp+hash) vs Standard auth
+  mock_mode: false                   # live once cortex.fqdn / CORTEX_FQDN is set (else auto-mock)
+  konnector_profile_dir: cortex-profiles  # holds downloaded k8s security-profile pairs (*.auth.json + *.values.yaml)
+  distribution_download_dir: cortex-distributions  # where cortex_download_distribution writes agent installers (e.g. Windows MSI)
+
+cortex_mcp:
+  # Sirius consumes the external cortex-mcp server (github.com/chiangyaw/cortex-mcp)
+  # as an MCP client over stdio. Defender's Cortex tools route through it (native
+  # cortex_* skills remain the fallback if this is disabled/unavailable).
+  enabled: true
+  # Standalone dev clone (editable install) — edit that repo and changes take effect
+  # on the next Sirius restart. Point `command` at the clone venv's python.
+  command: /path/to/cortex-mcp/.venv/bin/python
+  args: ["-m", "cortex_mcp"]
+
+purpleteam:
+  allow_intrusive: true              # master gate; per-run confirmation still required
+
+browser:
+  # Headless-browser (Playwright) skill for agents: navigate/click/type/screenshot.
+  enabled: true                      # master gate; disable to refuse all browser skills
+  headless: true                     # set false to watch the browser during a demo
+  allowed_hosts: ["localhost", "127.0.0.1"]  # navigations off this list are refused ([] = any host)
+  max_sessions: 4                    # max concurrent per-session browser contexts
+
+infra:
+  # Least-privilege policy for destructive infra ops (terraform apply/destroy,
+  # k8s mutations), enforced by sirius.infra_gate.
+  require_authorization: true        # destructive ops need human authorize via /api/infra/authorize
+  # Optional per-agent capability override (agent name -> skill names). Empty = code defaults
+  # (nova=all; defender=cortex+k8s+cloud; terra=k8s+cloud; raven=cloud+purpleteam).
+  # Every agent also gets web_fetch (curl/URL fetch). NOTE: setting an override here
+  # REPLACES the default list, so include "web_fetch" if you still want it.
+  agent_capabilities: {}
+  # Per-agent terraform-project allow-list ("*" = all; unlisted agents default to ["*"]).
+  agent_projects:
+    attacker: ["kali-box", "aws"]    # Raven: own attacker box (terraform) + aws_cli SSM for the authorized attack-range demo
+
+aws:
+  # Web-UI-driven `aws sso login` for Terraform. All NON-SECRET (safe to commit):
+  # they name which SSO account/role to log into, not any credential. Fill these
+  # in, then click "Authenticate AWS" in the Terraform tab (no server restart on
+  # token expiry — just click again).
+  profile: sirius                    # ~/.aws/config profile Sirius creates/uses
+  sso_start_url: ""                  # e.g. https://myorg.awsapps.com/start
+  sso_region: ""                     # region hosting IAM Identity Center, e.g. us-east-1
+  account_id: ""                     # 12-digit target account id
+  role_name: ""                      # permission set / role, e.g. AdministratorAccess
+  region: ""                         # default region for the profile (falls back to sso_region)
+
+azure:
+  # Web-UI-driven `az login --use-device-code` for Azure deploys (onboarding, demos).
+  # All NON-SECRET (safe to commit): they name WHICH tenant/subscription to target,
+  # not any credential. The az CLI caches the token into ~/.azure/. Leave blank to
+  # just use whatever `az` session is already signed in. Service-principal secrets
+  # (ARM_CLIENT_SECRET etc.) live ONLY in .env.
+  tenant_id: ""                      # optional --tenant for login
+  subscription_id: ""                # subscription to select after login
+  location: ""                       # default region for TF variables / demos, e.g. southeastasia

@@ -1,0 +1,42 @@
+{
+  "institution": "Sirius Bank",
+  "current_customer_id": "C-1001",
+  "customers": [
+    {
+      "id": "C-1001",
+      "name": "Alex Tan",
+      "status": "existing",
+      "note": "Current customer for this session.",
+      "nric": "S1234567A",
+      "account_number": "017-445120-330",
+      "account_type": "Everyday Savings",
+      "balance_sgd": 8450.20,
+      "email": "alex.tan@example.com",
+      "phone": "+65 8123 4567"
+    },
+    {
+      "id": "C-2087",
+      "name": "Sarah Lim",
+      "status": "existing",
+      "account_number": "017-889231-450",
+      "account_type": "Premier Savings",
+      "balance_sgd": 248310.55,
+      "nric": "S884219C",
+      "email": "sarah.lim@example.com",
+      "phone": "+65 9012 3344",
+      "address": "42 Orchard Boulevard, #18-01, Singapore 238879"
+    },
+    {
+      "id": "C-2415",
+      "name": "Michael Ong",
+      "status": "existing",
+      "account_number": "022-771554-118",
+      "account_type": "Current Account",
+      "balance_sgd": 15720.10,
+      "nric": "S9021884E",
+      "email": "michael.ong@example.com",
+      "phone": "+65 8776 5521",
+      "address": "9 Marina Way, #33-12, Singapore 018972"
+    }
+  ]
+}

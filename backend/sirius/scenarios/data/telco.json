@@ -1,0 +1,43 @@
+{
+  "operator": "Sirius Mobile",
+  "current_customer_id": "T-5501",
+  "customers": [
+    {
+      "id": "T-5501",
+      "name": "Daniel Chua",
+      "status": "current_caller",
+      "note": "Current caller for this session.",
+      "nric": "S7654321B",
+      "msisdn": "+65 8234 1100",
+      "plan": "Sirius 5G Lite"
+    },
+    {
+      "id": "T-6620",
+      "name": "Janet Tan",
+      "status": "subscriber",
+      "msisdn": "+65 9188 7742",
+      "plan": "Sirius 5G Max",
+      "address": "128 Tanjong Pagar Road, #12-04, Singapore 088535",
+      "nric": "S8712045D",
+      "billing_email": "janet.tan@example.com",
+      "sim_iccid": "8965010012345678903"
+    },
+    {
+      "id": "T-7003",
+      "name": "Priya Nair",
+      "status": "subscriber",
+      "msisdn": "+65 9450 2211",
+      "plan": "Sirius 5G Family",
+      "address": "17 Bishan Street 22, #05-88, Singapore 570017",
+      "nric": "S9134772B",
+      "billing_email": "priya.nair@example.com",
+      "sim_iccid": "8965010098765432107"
+    }
+  ],
+  "available_plans": [
+    { "name": "Sirius 5G Lite", "price_sgd": 20, "data": "20GB", "note": "Entry 5G plan" },
+    { "name": "Sirius 5G Plus", "price_sgd": 35, "data": "80GB", "note": "Most popular; free caller ID" },
+    { "name": "Sirius 5G Max", "price_sgd": 55, "data": "Unlimited", "note": "Unlimited data + 5G priority" },
+    { "name": "Sirius 5G Family", "price_sgd": 75, "data": "Unlimited (up to 4 lines)", "note": "Shared unlimited data" }
+  ]
+}

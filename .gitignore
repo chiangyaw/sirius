@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+*.egg-info/
+.pytest_cache/
+
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+# Cortex Cloud konnector profiles (GCP pull key + dockerPullSecret + distribution id)
+backend/cortex-profiles/
+K8s-security-profile-*
+# Downloaded Cortex agent installers (large binaries, e.g. Windows MSI)
+backend/cortex-distributions/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+backend/sirius/web_dist/
+
+# Terraform — state can contain secrets
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+terraform/*/generated/
+terraform/eks/cortex-agent/   # generated Cortex agent manifests (may carry a distribution id)
+
+# Runtime
+~/.sirius/
+.DS_Store
+
+# Scratch / local research — contains live tenant exports, SQS msgs, customer logs
+tmp/
+
+# Backup virtualenv
+backend/.venv-py39-bak/
+**/.venv-py39-bak/

@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0e14;
+  color: #e6ebf5;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Thin dark scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3446 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2a3446;
+  border-radius: 8px;
+}
+
+@keyframes pulse-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.event-in {
+  animation: pulse-in 0.18s ease-out;
+}
+
+/* Animated "working…" dots — each blinks in staggered sequence. */
+@keyframes dot-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.15;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.dot-blink {
+  animation: dot-blink 1.2s infinite ease-in-out both;
+}
+.dot-blink:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dot-blink:nth-child(3) {
+  animation-delay: 0.4s;
+}

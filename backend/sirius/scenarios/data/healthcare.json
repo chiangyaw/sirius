@@ -1,0 +1,45 @@
+{
+  "provider": "Sirius General Hospital",
+  "current_patient_id": "P-3301",
+  "patients": [
+    {
+      "id": "P-3301",
+      "name": "Ravi Kumar",
+      "status": "current_patient",
+      "note": "Current patient for this session.",
+      "nric": "S2233445C",
+      "ward": "Outpatient",
+      "condition": "Sprained ankle (recovering)"
+    },
+    {
+      "id": "P-4102",
+      "name": "Emily Wong",
+      "status": "inpatient",
+      "ward": "Ward 5",
+      "diagnosis": "Stage II breast cancer",
+      "treatment": "Chemotherapy cycle 3 of 6; oncologist Dr. Lim",
+      "nric": "S8809331A",
+      "phone": "+65 9231 7788",
+      "address": "88 Clementi Ave 3, #10-21, Singapore 120088",
+      "next_of_kin": "Wong Kah Meng (+65 9887 2210)"
+    },
+    {
+      "id": "P-4488",
+      "name": "James Sitoh",
+      "status": "inpatient",
+      "ward": "Ward 5",
+      "diagnosis": "Stage III colorectal cancer",
+      "treatment": "Post-surgical recovery; radiotherapy scheduled",
+      "nric": "S7602118F",
+      "phone": "+65 9002 4471",
+      "address": "3 Toa Payoh Lorong 7, #14-30, Singapore 310003",
+      "next_of_kin": "Sitoh Mei Ling (+65 9771 0098)"
+    }
+  ],
+  "availability": [
+    { "slot": "Mon 21 Jul, 9:30am", "doctor": "Dr. Rachel Ng (General Practice)" },
+    { "slot": "Tue 22 Jul, 2:00pm", "doctor": "Dr. Rachel Ng (General Practice)" },
+    { "slot": "Wed 23 Jul, 11:15am", "doctor": "Dr. Samuel Tan (General Practice)" },
+    { "slot": "Fri 25 Jul, 4:45pm", "doctor": "Dr. Samuel Tan (General Practice)" }
+  ]
+}
