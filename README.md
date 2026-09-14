@@ -40,8 +40,8 @@ to a no-network **Echo** backend so the UI/event flow still works.
 
 #### Rotating the Vertex project
 
-The sandbox project rotates roughly every 5 weeks. To switch without editing
-committed config, set an override in `backend/.env` (git-ignored) and restart:
+To switch the Vertex project without editing committed config, set an override
+in `backend/.env` (git-ignored) and restart:
 
 ```bash
 SIRIUS_VERTEX_PROJECT=prod-<new-id>   # wins over config.yaml

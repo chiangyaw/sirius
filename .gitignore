@@ -42,3 +42,12 @@ tmp/
 # Backup virtualenv
 backend/.venv-py39-bak/
 **/.venv-py39-bak/
+
+# Removed from version control on request — kept locally, not published
+/Cortex-XDR-Coexistence-and-Exclusions-Report.md
+/canon-btp-exception-guide.md
+/registry-scan-test/
+/terraform/
+/CLAUDE.md
+/.claude/
+/cortex-content/
