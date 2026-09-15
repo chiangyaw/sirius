@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Onboarding wizard** — `sirius onboard` (alias `sirius init`), an interactive
+  setup flow that writes non-secret settings to `config.yaml` and secrets to
+  `.env` (chmod 600). Covers the Claude backend, Prisma AIRS, Cortex XDR + the
+  cortex-mcp bridge, the backend cloud provider (AWS / Azure / GCP), and the
+  safety gates. Never asks for cloud credentials and never echoes a secret.
+- **LLM backends** — `direct` (Anthropic API via `ANTHROPIC_API_KEY`) and
+  `bedrock` (Amazon Bedrock) join `vertex`; `llm.backend` selects the provider
+  (`vertex | direct | bedrock | echo`), with graceful Echo fallback if a backend
+  can't initialize.
+
 ## [0.1.0] - 2026-09-14
 
 Initial release of Sirius — a multi-agent, multi-skill security demo platform:

@@ -16,7 +16,7 @@ Backend: **FastAPI** (Python). LLM: **Claude on GCP Vertex AI**. Frontend:
 2. **Purple Team scans** — safe local recon (fingerprint, endpoint/API discovery,
    exposure checks) always available; an **intrusive** Kali-on-AWS path that is
    double-gated (config flag + human authorization of the exact target).
-3. **Cortex XDR** — an API client + **MCP server** (incidents, alerts, endpoints,
+3. **Cortex** — an API client + **MCP server** (incidents, alerts, endpoints,
    isolate, XQL), plus helpers to deploy the Cortex k8s connector (Helm) to EKS and
    run a detectable attack simulation.
 4. **Terraform build & destroy** — in-app apply/plan/destroy that streams output as
@@ -30,13 +30,59 @@ Backend: **FastAPI** (Python). LLM: **Claude on GCP Vertex AI**. Frontend:
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e '.[all]'          # or: pip install -e .   (core only)
-cp .env.example .env             # fill in tokens (AIRS, Cortex, AWS, GCP)
+sirius onboard                   # interactive setup — writes config.yaml + .env
 sirius serve                     # http://127.0.0.1:5173 (serves API + built UI)
 ```
+
+### Onboarding wizard
+
+`sirius onboard` (alias `sirius init`) is an interactive wizard — the easiest way
+to get set up. It asks how you want to run Sirius and writes the answers to the
+right place, honoring the two-tier config split:
+
+- **Non-secret settings → `config.yaml`** (safe to commit; rendered with its
+  documented inline comments intact).
+- **Secrets / API tokens → `.env`** (git-ignored, written `chmod 600`, existing
+  keys and comments preserved).
+
+By design it **never asks for cloud credentials** — AWS/Azure/GCP sign-in stays
+with `aws sso login` / `az login` / `gcloud auth application-default login` and
+the in-app buttons; the wizard only records *which* account/tenant/project to
+target. It **never echoes a secret** (masked entry, shows only "already set / not
+set"), and only genuine API tokens with no interactive login (Anthropic, Prisma
+AIRS, Cortex) are stored in `.env`.
+
+It walks through five sections:
+
+1. **Claude access** — pick the LLM backend:
+   - `vertex` — Claude on GCP Vertex AI (credentials via ADC); prompts for GCP
+     project + region.
+   - `direct` — the Anthropic API; prompts for `ANTHROPIC_API_KEY` (→ `.env`).
+   - `bedrock` — Amazon Bedrock; prompts for the Bedrock region (creds from your
+     AWS chain).
+   - `echo` — offline, no LLM (UI/event flow only, no real answers).
+
+   Then the default + scenario model ids (with sensible per-provider defaults).
+2. **Prisma AIRS** — enable scanning, profile name, API endpoint, and
+   `PANW_AI_SEC_API_KEY` (→ `.env`).
+3. **Cortex** — connect a live tenant (FQDN, Advanced vs Standard auth,
+   `CORTEX_API_KEY` + `CORTEX_API_KEY_ID` → `.env`) or stay in mock mode, plus
+   whether to enable the cortex-mcp bridge and where its interpreter lives.
+4. **Backend cloud provider** — AWS (SSO start URL, region, account id, role),
+   Azure (tenant/subscription/location), or GCP (project/region → `.env`) for
+   infrastructure deploys.
+5. **Safety gates** — require human authorization for destructive infra ops, and
+   whether to allow the intrusive purple-team path (both default to safe).
+
+It shows a review summary, then writes on confirmation. Re-run it any time to
+change settings — it backs up the previous `config.yaml` to `config.yaml.bak`
+first. Prefer manual setup? `cp .env.example .env` and edit `config.yaml` by hand
+instead.
+
 Vertex needs GCP Application Default Credentials:
 `gcloud auth application-default login` and set `llm.vertex_project` in
-`config.yaml` (or `GOOGLE_CLOUD_PROJECT` in `.env`). Without it, Sirius falls back
-to a no-network **Echo** backend so the UI/event flow still works.
+`config.yaml` (or `GOOGLE_CLOUD_PROJECT` in `.env`). Without a working backend,
+Sirius falls back to a no-network **Echo** backend so the UI/event flow still works.
 
 #### Rotating the Vertex project
 
@@ -85,7 +131,7 @@ role (SBAC) must include the scopes you use:
 - **endpoints (Endpoint Administrator)** → required for isolate / scan / list.
   Without it those calls return an SBAC-blocked error (surfaced clearly in the UI).
 
-Note: creating prevention **profiles/policies is not exposed** by the Cortex XDR
+Note: creating prevention **profiles/policies is not exposed** by the Cortex
 public API — that stays a console action.
 
 ## Safety

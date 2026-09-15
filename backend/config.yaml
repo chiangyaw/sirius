@@ -2,7 +2,7 @@
 # This file is safe to commit.
 
 llm:
-  backend: vertex                    # currently only "vertex" (Claude on Vertex AI)
+  backend: vertex                    # vertex | direct | bedrock | echo (run `sirius onboard` to change)
   model: claude-sonnet-5             # default/general agent (General, Cortex, Terraform, Attacker)
   scenario_model: claude-sonnet-5    # Prisma AIRS scenario agents (bank/telco/healthcare) — sonnet leaks the attack reliably with AIRS off; haiku over-refuses PII/medical exfiltration and breaks the demo
   vertex_project: your-gcp-project   # GCP project id for Vertex AI (Claude).

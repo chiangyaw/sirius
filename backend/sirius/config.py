@@ -22,11 +22,12 @@ _CONFIG_FILENAME = "config.yaml"
 
 
 class LLMConfig(BaseModel):
-    backend: str = "vertex"                       # only "vertex" for now (Claude on Vertex AI)
-    model: str = "claude-sonnet-5"                # default/general Vertex Claude model id
+    backend: str = "vertex"                       # vertex | direct | bedrock | echo
+    model: str = "claude-sonnet-5"                # default/general Claude model id (provider-specific)
     scenario_model: str = ""                       # Prisma AIRS scenario agents (falls back to model)
-    vertex_project: str = ""                       # falls back to env at runtime
-    vertex_region: str = "us-east5"                # falls back to env at runtime
+    vertex_project: str = ""                       # Vertex only; falls back to env at runtime
+    vertex_region: str = "us-east5"                # Vertex only; falls back to env at runtime
+    bedrock_region: str = ""                       # Bedrock only; falls back to AWS_REGION / us-east-1
     max_tokens: int = 4096
     max_steps: int = 20                            # tool-use loop ceiling per turn (multi-step provisioning)
 

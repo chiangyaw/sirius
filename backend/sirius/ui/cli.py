@@ -96,6 +96,9 @@ def main() -> None:
     st.add_argument("--port", type=int, default=5173,
                     help="Port to fall back to if no pid file is found")
 
+    sub.add_parser("onboard", aliases=["init"],
+                   help="Interactive setup wizard (writes config.yaml + .env)")
+
     args = p.parse_args()
     if args.cmd == "serve":
         _serve(args.host, args.port, args.reload)
@@ -103,6 +106,9 @@ def main() -> None:
         _serve_bg(args.host, args.port)
     elif args.cmd == "stop":
         _stop(args.port)
+    elif args.cmd in ("onboard", "init"):
+        from sirius.ui.onboard import run as _onboard
+        raise SystemExit(_onboard())
     else:
         p.print_help()
 

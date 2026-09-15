@@ -29,6 +29,8 @@ purpleteam = ["paramiko>=3.4"]
 mcp = ["mcp>=1.2", "cortex-mcp @ git+https://github.com/chiangyaw/cortex-mcp.git"]
 # AWS preflight / helpers
 aws = ["boto3>=1.34"]
+# Claude via Amazon Bedrock (llm.backend: bedrock)
+bedrock = ["anthropic[bedrock]>=0.40"]
 dev = ["pytest>=8.0", "pytest-asyncio>=0.23"]
 all = [
     "pan-aisecurity>=0.11",
@@ -36,6 +38,7 @@ all = [
     "mcp>=1.2",
     "cortex-mcp @ git+https://github.com/chiangyaw/cortex-mcp.git",
     "boto3>=1.34",
+    "anthropic[bedrock]>=0.40",
 ]
 
 [project.scripts]
