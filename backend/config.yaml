@@ -5,8 +5,8 @@ llm:
   backend: vertex                    # currently only "vertex" (Claude on Vertex AI)
   model: claude-sonnet-5             # default/general agent (General, Cortex, Terraform, Attacker)
   scenario_model: claude-sonnet-5    # Prisma AIRS scenario agents (bank/telco/healthcare) — sonnet leaks the attack reliably with AIRS off; haiku over-refuses PII/medical exfiltration and breaks the demo
-  vertex_project: your-gcp-project        # active Vertex project (rotates ~every 5 weeks).
-                                     # To rotate without editing this committed file,
+  vertex_project: your-gcp-project   # GCP project id for Vertex AI (Claude).
+                                     # To override without editing this committed file,
                                      # set SIRIUS_VERTEX_PROJECT in .env — it overrides
                                      # this value. Then restart the backend.
   vertex_region: global              # active Vertex region (global endpoint).
@@ -17,7 +17,7 @@ llm:
 
 airs:
   enabled: true                      # master default; the UI toggle overrides per-request
-  profile_name: your-airs-profile  # reuse Alfred's existing AIRS profile (same tenant)
+  profile_name: your-airs-profile    # AIRS security profile name (from your tenant)
   app_name: sirius
   api_endpoint: https://service-sg.api.aisecurity.paloaltonetworks.com  # SG-region token
   fail_open: true                    # scan errors allow traffic through (demo-friendly)

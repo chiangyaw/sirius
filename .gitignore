@@ -51,3 +51,12 @@ backend/.venv-py39-bak/
 /CLAUDE.md
 /.claude/
 /cortex-content/
+
+# Runtime logs & real-tenant artifacts (kept locally, excluded from the public repo)
+backend/audit_log.jsonl
+backend/terraform_inventory.json
+backend/reports/
+/reports/attack-range-simulation-2026-08-24.md
+/docs/cortex-xql-eks-container-network-report.md
+backend/sirius/cortex/reference/alert-189664.md
+backend/sirius/cortex/reference/issue-189664.md
