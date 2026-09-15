@@ -7,6 +7,7 @@ name = "sirius"
 version = "0.1.0"
 description = "Sirius — multi-agent, multi-skill security demo platform"
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.9"
 dependencies = [
     "fastapi>=0.110",
